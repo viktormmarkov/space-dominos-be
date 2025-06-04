@@ -1,7 +1,6 @@
 package com.example.spacedominos.models;
 
 import com.example.spacedominos.enums.GamePhaseEnum;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +8,6 @@ import java.util.HashMap;
 
 @Setter
 @Getter
-@Builder
 public class GameState {
     private String gameId;
     private Player[] players;
@@ -32,6 +30,7 @@ public class GameState {
         this.playerBoards = new HashMap<>();
         this.playerDraftPicks = new HashMap<>();
         this.initPlayerOrder();
+        // todo: init player boards
     }
 
     private void initPlayerOrder() {

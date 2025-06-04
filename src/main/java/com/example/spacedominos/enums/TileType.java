@@ -6,4 +6,5 @@ public enum TileType {
     SWAMP,
     MOUNTAIN,
     FIELD,
+    CASTLE,
 }
