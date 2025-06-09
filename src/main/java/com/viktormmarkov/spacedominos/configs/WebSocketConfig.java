@@ -1,4 +1,4 @@
-package com.example.spacedominos.configs;
+package com.viktormmarkov.spacedominos.configs;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

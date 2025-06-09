@@ -1,7 +1,7 @@
-package com.example.spacedominos.controllers;
+package com.viktormmarkov.spacedominos.api.controllers;
 
-import com.example.spacedominos.models.Message;
-import com.example.spacedominos.models.Response;
+import com.viktormmarkov.spacedominos.models.Message;
+import com.viktormmarkov.spacedominos.models.Response;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.stereotype.Controller;

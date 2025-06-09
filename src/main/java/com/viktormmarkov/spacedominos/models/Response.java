@@ -1,4 +1,4 @@
-package com.example.spacedominos.models;
+package com.viktormmarkov.spacedominos.models;
 
 public class Response {
     private String message;
