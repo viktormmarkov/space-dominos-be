@@ -1,7 +1,7 @@
-package com.example.spacedominos.controllers;
+package com.viktormmarkov.spacedominos.api.controllers;
 
-import com.example.spacedominos.models.GameLobby;
-import com.example.spacedominos.models.Player;
+import com.viktormmarkov.spacedominos.models.GameLobby;
+import com.viktormmarkov.spacedominos.models.Player;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

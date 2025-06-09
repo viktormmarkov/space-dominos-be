@@ -1,6 +1,6 @@
-package com.example.spacedominos.models;
+package com.viktormmarkov.spacedominos.models;
 
-import com.example.spacedominos.enums.TileType;
+import com.viktormmarkov.spacedominos.domain.enums.TileType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

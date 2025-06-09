@@ -1,4 +1,4 @@
-package com.example.spacedominos.controllers;
+package com.viktormmarkov.spacedominos.api.controllers;
 
 public class GameProcessorController {
     // this class should handle communication with client-side game logic

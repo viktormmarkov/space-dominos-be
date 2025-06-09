@@ -1,4 +1,4 @@
-package com.example.spacedominos.repositories;
+package com.viktormmarkov.spacedominos.repositories;
 
 import org.springframework.stereotype.Repository;
 
