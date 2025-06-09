@@ -1,6 +1,6 @@
-package com.example.spacedominos.models;
+package com.viktormmarkov.spacedominos.models;
 
-import com.example.spacedominos.enums.GamePhaseEnum;
+import com.viktormmarkov.spacedominos.domain.enums.GamePhaseEnum;
 import lombok.Getter;
 import lombok.Setter;
 

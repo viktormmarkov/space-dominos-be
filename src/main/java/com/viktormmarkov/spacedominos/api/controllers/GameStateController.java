@@ -1,4 +1,4 @@
-package com.example.spacedominos.controllers;
+package com.viktormmarkov.spacedominos.api.controllers;
 
 import org.springframework.stereotype.Controller;
 

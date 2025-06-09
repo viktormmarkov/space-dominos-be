@@ -1,4 +1,4 @@
-package com.example.spacedominos.enums;
+package com.viktormmarkov.spacedominos.domain.enums;
 
 public enum TileType {
     GRASS,
