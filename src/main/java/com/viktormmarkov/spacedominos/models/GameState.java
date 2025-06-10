@@ -19,6 +19,7 @@ public class GameState {
     private HashMap<String, Board> playerBoards;
     private int draftTilesCount;
     private HashMap<String, Integer> playerDraftPicks;
+    private int testCounter = 0;
 
     public GameState(String gameId, Player[] players, GameTile[] gameTiles, int draftTilesCount) {
         this.gameId = gameId;
@@ -34,6 +35,9 @@ public class GameState {
     }
 
     private void initPlayerOrder() {
+        if(players == null || players.length == 0) {
+            return;
+        }
         Player[] playersCopy = players.clone();
         this.playerOrder = new String[players.length];
         for (int i = 0; i < playersCopy.length; i++) {
@@ -43,6 +47,14 @@ public class GameState {
             //drop player from playersCopy to avoid duplicates
         }
         this.currentPlayerId = playerOrder[0];
+    }
+
+    private void initPlayerBoards() {
+        for (Player player : players) {
+            Board board = new Board(5, 5);
+            board.initPlayerCastle();
+            playerBoards.put(player.getId(), board);
+        }
     }
 
     public GameTile[] getNewDraftTiles() {

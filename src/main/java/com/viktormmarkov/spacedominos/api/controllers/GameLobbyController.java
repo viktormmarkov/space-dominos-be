@@ -40,4 +40,10 @@ public class GameLobbyController {
         // For now, we will return a new GameLobby object with the provided gameId and player.
         return new GameLobby(gameId, "Game Name", "password", null, null, null, player, new Player[]{player});
     }
+
+    public String starGame(String gameId) {
+        // This method should start the game with the given gameId.
+        // For now, we will return a success message.
+        return "Game with ID " + gameId + " has started successfully.";
+    }
 }

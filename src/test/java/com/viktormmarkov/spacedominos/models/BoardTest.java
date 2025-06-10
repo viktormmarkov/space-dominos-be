@@ -2,6 +2,7 @@ package com.viktormmarkov.spacedominos.models;
 
 import com.viktormmarkov.spacedominos.domain.enitities.Position;
 import com.viktormmarkov.spacedominos.domain.enums.TileType;
+import com.viktormmarkov.spacedominos.helpers.BoardDrawer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -47,7 +48,7 @@ class BoardTest {
         Position position2 = new Position(center.x() + 1, center.y() + 1);
 
         board.placeGameTile(position1, position2, gameTile1);
-        board.drawBoard();
+        BoardDrawer.drawBoard(board);
         // Check if the tiles are placed correctly
         assertEquals(tile1, board.getTileAt(position1));
         assertEquals(tile2, board.getTileAt(position2));
@@ -64,7 +65,7 @@ class BoardTest {
         board.placeGameTile(position1, position2, gameTile1);
         board.placeGameTile(position3, position4, gameTile2);
 
-        board.drawBoard();
+        BoardDrawer.drawBoard(board);
         // Check if the tiles are placed correctly
         assertEquals(tile3, board.getTileAt(position3));
         assertEquals(tile4, board.getTileAt(position4));
@@ -80,13 +81,11 @@ class BoardTest {
 
         board.placeGameTile(position1, position2, gameTile1);
 
-        Board.drawBoardMove(board, position3, position4, gameTile2);
+        BoardDrawer.drawBoardMove(board, position3, position4, gameTile2);
         assertThrows(IllegalArgumentException.class, () -> {
             board.placeGameTile(position3, position4, gameTile2);
         });
-
     }
-
 
     @Test
     void getWidth() {

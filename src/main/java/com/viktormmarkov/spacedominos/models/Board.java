@@ -22,21 +22,6 @@ public class Board {
         this.tiles = new Tile[width][height];
     }
 
-    public static void drawBoardMove(Board board, Position position1, Position position2, GameTile gameTile) {
-        for (int y = 0; y < board.getHeight(); y++) {
-            for (int x = 0; x < board.getWidth(); x++) {
-              if (x == position1.x() && y == position1.y()) {
-                    System.out.print(gameTile.getTiles()[0].getType().ordinal() + ' '); // Tile 1
-                } else if (x == position2.x() && y == position2.y()) {
-                    System.out.print(gameTile.getTiles()[1].getType().ordinal() + ' '); // Tile 2
-                } else {
-                    System.out.print(". "); // Empty space
-                }
-            }
-            System.out.println();
-        }
-    }
-
     private boolean isPositionValid(Position position, Tile tile) {
         // check the neighboring positions based on position input.
         int x = position.x();
@@ -105,20 +90,4 @@ public class Board {
             Arrays.fill(row, null); // Clear each tile in the row
         }
     }
-
-    public void drawBoard() {
-        for (int y = 0; y < height; y++) {
-            for (int x = 0; x < width; x++) {
-                Tile tile = tiles[x][y];
-                if (tile != null) {
-                    System.out.print(tile.getType().ordinal() + " "); // Assuming TileType has a method getSymbol()
-//                    System.out.print("1 ");
-                } else {
-                    System.out.print(". "); // Empty space
-                }
-            }
-            System.out.println();
-        }
-    }
-
 }
