@@ -2,7 +2,6 @@ package com.viktormmarkov.spacedominos.api.controllers;
 
 import com.viktormmarkov.spacedominos.models.GameState;
 import com.viktormmarkov.spacedominos.repositories.GameStateRepository;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,13 +29,13 @@ public class GameStateController {
     @PostMapping("/api/games/update/{gameId}")
     public void updateGameState(@PathVariable String gameId) {
         GameState gameState = GameStateRepository.getGameState(gameId);
-        gameState.setTestCounter(gameState.getTestCounter() + 1);
+        gameState.setTurnCounter(gameState.getTurnCounter() + 1);
         // it should update the game state in the GameStateRepository
     }
 
     @GetMapping("/api/games/state/{gameId}")
     public String getGameState(@PathVariable String gameId) {
         GameState gameState = GameStateRepository.getGameState(gameId);
-        return gameState.getTestCounter() + " - " + gameState.getGameId();
+        return gameState.getTurnCounter() + " - " + gameState.getGameId();
     }
 }

@@ -19,7 +19,7 @@ public class GameState {
     private HashMap<String, Board> playerBoards;
     private int draftTilesCount;
     private HashMap<String, Integer> playerDraftPicks;
-    private int testCounter = 0;
+    private int turnCounter = 0;
 
     public GameState(String gameId, Player[] players, GameTile[] gameTiles, int draftTilesCount) {
         this.gameId = gameId;
@@ -77,10 +77,12 @@ public class GameState {
         }
         if (!playerDraftPicks.containsKey(playerId)) {
             playerDraftPicks.put(playerId, draftOptionIndex);
+            // add check for last player to change game phase
         } else {
             throw new IllegalStateException("Draft option already picked");
         }
     }
+
 
     public void wipeDraftOptions() {
         playerDraftPicks.clear();
