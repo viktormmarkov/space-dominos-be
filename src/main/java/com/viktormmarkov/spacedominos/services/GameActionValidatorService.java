@@ -8,7 +8,7 @@ import com.viktormmarkov.spacedominos.models.PlaceTileAction;
 
 public class GameActionValidatorService {
     private final GameState gameState;
-    private GameActionValidatorService(GameState gameState) {
+    public GameActionValidatorService(GameState gameState) {
         this.gameState = gameState;
     }
     private boolean isPlayerTurn(String playerId) {

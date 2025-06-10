@@ -75,9 +75,8 @@ public class GameState {
         if (draftOptionIndex < 0 || draftOptionIndex >= draftTilesCount) {
             throw new IllegalArgumentException("Invalid draft option index");
         }
-        if (!playerDraftPicks.containsKey(playerId)) {
+        if (!playerDraftPicks.containsKey(playerId) && !playerDraftPicks.containsValue(draftOptionIndex)) {
             playerDraftPicks.put(playerId, draftOptionIndex);
-            // add check for last player to change game phase
         } else {
             throw new IllegalStateException("Draft option already picked");
         }
