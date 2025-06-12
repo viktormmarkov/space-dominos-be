@@ -6,32 +6,27 @@ import com.viktormmarkov.spacedominos.helpers.BoardDrawer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import com.viktormmarkov.spacedominos.models.Board;
-
-import java.lang.reflect.Array;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
     Board board;
     Position center;
-    static GameTile gameTile1;
-    static GameTile gameTile2;
     static Tile tile1;
     static Tile tile2;
-    static Tile tile3;
-    static Tile tile4;
+    static SquareTile squareTile1;
+    static SquareTile squareTile2;
+    static SquareTile squareTile3;
+    static SquareTile squareTile4;
 
     @BeforeAll
     static void init() {
-        tile1 = new Tile(TileType.GRASS, 0);
-        tile2 = new Tile(TileType.WATER, 1);
-        tile3 = new Tile(TileType.GRASS, 2);
-        tile4 = new Tile(TileType.WATER, 3);
-        gameTile1 = new GameTile(0, new Tile[] {tile1, tile2});
-        gameTile2 = new GameTile(1, new Tile[] {tile3, tile4});
+        squareTile1 = new SquareTile(TileType.GRASS, 0);
+        squareTile2 = new SquareTile(TileType.WATER, 1);
+        squareTile3 = new SquareTile(TileType.GRASS, 2);
+        squareTile4 = new SquareTile(TileType.WATER, 3);
+        tile1 = new Tile(0, new SquareTile[] {squareTile1, squareTile2});
+        tile2 = new Tile(1, new SquareTile[] {squareTile3, squareTile4});
         // This method is called once before all tests in this class
         // You can use it to set up any static resources if needed
     }
@@ -47,11 +42,11 @@ class BoardTest {
         Position position1 = new Position(center.x() , center.y() + 1);
         Position position2 = new Position(center.x() + 1, center.y() + 1);
 
-        board.placeGameTile(position1, position2, gameTile1);
+        board.placeGameTile(position1, position2, tile1);
         BoardDrawer.drawBoard(board);
         // Check if the tiles are placed correctly
-        assertEquals(tile1, board.getTileAt(position1));
-        assertEquals(tile2, board.getTileAt(position2));
+        assertEquals(squareTile1, board.getTileAt(position1));
+        assertEquals(squareTile2, board.getTileAt(position2));
 
     }
 
@@ -62,13 +57,13 @@ class BoardTest {
         Position position3 = new Position(center.x(), center.y() + 2);
         Position position4 = new Position(center.x() + 1, center.y() + 2);
 
-        board.placeGameTile(position1, position2, gameTile1);
-        board.placeGameTile(position3, position4, gameTile2);
+        board.placeGameTile(position1, position2, tile1);
+        board.placeGameTile(position3, position4, tile2);
 
         BoardDrawer.drawBoard(board);
         // Check if the tiles are placed correctly
-        assertEquals(tile3, board.getTileAt(position3));
-        assertEquals(tile4, board.getTileAt(position4));
+        assertEquals(squareTile3, board.getTileAt(position3));
+        assertEquals(squareTile4, board.getTileAt(position4));
     }
 
     @Test
@@ -79,35 +74,11 @@ class BoardTest {
         Position position4 = new Position(0, 1);
 
 
-        board.placeGameTile(position1, position2, gameTile1);
+        board.placeGameTile(position1, position2, tile1);
 
-        BoardDrawer.drawBoardMove(board, position3, position4, gameTile2);
+        BoardDrawer.drawBoardMove(board, position3, position4, tile2);
         assertThrows(IllegalArgumentException.class, () -> {
-            board.placeGameTile(position3, position4, gameTile2);
+            board.placeGameTile(position3, position4, tile2);
         });
-    }
-
-    @Test
-    void getWidth() {
-    }
-
-    @Test
-    void getHeight() {
-    }
-
-    @Test
-    void getTiles() {
-    }
-
-    @Test
-    void setWidth() {
-    }
-
-    @Test
-    void setHeight() {
-    }
-
-    @Test
-    void setTiles() {
     }
 }

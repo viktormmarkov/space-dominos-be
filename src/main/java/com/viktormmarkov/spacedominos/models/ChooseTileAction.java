@@ -4,10 +4,10 @@ import com.viktormmarkov.spacedominos.domain.enums.ActionTypeEnum;
 
 public class ChooseTileAction extends Action {
     private int draftTileIndex;
-    private GameTile gameTile;
-    public ChooseTileAction(String playerId, int draftTileIndex, GameTile gameTile) {
+    private Tile tile;
+    public ChooseTileAction(String playerId, int draftTileIndex, Tile tile) {
         super(playerId, ActionTypeEnum.CHOOSE_TILE);
         this.draftTileIndex = draftTileIndex;
-        this.gameTile = gameTile;
+        this.tile = tile;
     }
 }

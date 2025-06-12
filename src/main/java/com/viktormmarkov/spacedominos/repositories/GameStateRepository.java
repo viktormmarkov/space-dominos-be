@@ -1,6 +1,7 @@
 package com.viktormmarkov.spacedominos.repositories;
 
 import com.viktormmarkov.spacedominos.models.GameState;
+import com.viktormmarkov.spacedominos.models.Player;
 
 import java.util.Arrays;
 import java.util.List;
@@ -17,7 +18,13 @@ public final class GameStateRepository {
     }
 
     public static GameState initGameState(String gameId) {
-        return gameStates.putIfAbsent(gameId, new GameState(gameId, null, null, 0));
+        Player[] players = new Player[]{
+                new Player("1", "Player 1"),
+                new Player("2", "Player 2"),
+                new Player("3", "Player 3"),
+                new Player("4", "Player 4")
+        };
+        return gameStates.putIfAbsent(gameId, new GameState(gameId, players));
     }
 
     public static List<String> getAllGameIds() {
