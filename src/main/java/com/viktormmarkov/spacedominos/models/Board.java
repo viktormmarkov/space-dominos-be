@@ -20,6 +20,22 @@ public class Board {
         this.width = width;
         this.height = height;
         this.squareTiles = new SquareTile[width][height];
+        this.initPlayerCastle();
+    }
+
+    private void initPlayerCastle() {
+        int centerX = width / 2;
+        int centerY = height / 2;
+
+        // Create a castle tile (assuming a TileType for castle)
+        SquareTile castleSquareTile = new SquareTile(TileType.CASTLE, 0); // Assuming TileType.CASTLE is defined
+        squareTiles[centerX][centerY] = castleSquareTile;
+    }
+
+    public Position getCenterTile() {
+        int centerX = width / 2;
+        int centerY = height / 2;
+        return new Position(centerX, centerY);
     }
 
     private boolean isPositionValid(Position position, SquareTile squareTile) {
@@ -46,16 +62,6 @@ public class Board {
             return false; // Position is out of bounds
         }
         return hasMatchingNeighbor;
-    }
-
-    public Position initPlayerCastle() {
-        int centerX = width / 2;
-        int centerY = height / 2;
-
-        // Create a castle tile (assuming a TileType for castle)
-        SquareTile castleSquareTile = new SquareTile(TileType.CASTLE, 0); // Assuming TileType.CASTLE is defined
-        squareTiles[centerX][centerY] = castleSquareTile;
-        return new Position(centerX, centerY);
     }
 
     public void placeGameTile(Position pos1, Position pos2, Tile tile) {

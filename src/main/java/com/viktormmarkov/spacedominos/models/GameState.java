@@ -73,7 +73,6 @@ public class GameState {
         this.playerBoards = new HashMap<>();
         for (Player player : players) {
             Board board = new Board(5, 5);
-            board.initPlayerCastle();
             playerBoards.put(player.getId(), board);
         }
     }

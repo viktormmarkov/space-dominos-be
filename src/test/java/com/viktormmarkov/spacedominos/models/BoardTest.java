@@ -34,7 +34,7 @@ class BoardTest {
     @BeforeEach
     void setUp() {
         board = new Board(5, 5);
-        center = board.initPlayerCastle();
+        center = board.getCenterTile();
     }
 
     @Test

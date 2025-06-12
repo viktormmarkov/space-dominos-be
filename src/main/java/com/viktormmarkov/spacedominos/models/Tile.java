@@ -9,10 +9,17 @@ import java.util.Arrays;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class Tile implements Cloneable {
     private int number;
     private SquareTile[] squareTiles;
+
+    public Tile(int number, SquareTile[] squareTiles) {
+        if (squareTiles == null || squareTiles.length != 2) {
+            throw new IllegalArgumentException("Tile must contain exactly two square tiles.");
+        }
+        this.number = number;
+        this.squareTiles = squareTiles;
+    }
 
     boolean isExistingTile() {
         Tile[] allTiles = TilesRepository.getTiles();
