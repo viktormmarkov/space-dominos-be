@@ -38,6 +38,15 @@ class BoardTest {
     }
 
     @Test
+    void initPlayerCastle_shouldReturnCenterPosition() {
+        // Check if the center position is correctly initialized
+        assertEquals(new Position(2, 2), center);
+        // Check if the castle tile is placed at the center position
+        assertNotNull(board.getTileAt(center));
+        assertEquals(TileType.CASTLE, board.getTileAt(center).getType());
+    }
+
+    @Test
     void placeGameTile_shouldWorkOnAdjacentPositionsToCastle() {
         Position position1 = new Position(center.x() , center.y() + 1);
         Position position2 = new Position(center.x() + 1, center.y() + 1);

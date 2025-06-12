@@ -115,7 +115,7 @@ public class GameState {
         if (playerDraftPicks.size() == players.length) {
             // all players have picked their draft options
             this.gamePhase = GamePhaseEnum.PLACE_TILES;
-            this.nextDraftTiles = this.getNewDraftTiles();
+            // this.nextDraftTiles = this.getNewDraftTiles();
         }
         // change phase to play tile
     }
