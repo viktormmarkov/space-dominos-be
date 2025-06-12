@@ -18,5 +18,4 @@ public class GameLobby {
     private Date endedAt;
     private Player host;
     private Player[] players;
-
 }
