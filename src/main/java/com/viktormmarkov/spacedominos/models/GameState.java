@@ -29,6 +29,10 @@ public class GameState {
     private int turnCounter = 0;
 
     public GameState(String gameId, Player[] players) {
+        if (players == null || players.length == 0) {
+            throw new IllegalArgumentException("Players cannot be null or empty");
+        }
+        // add check for two players or fix logic as each player will play twice, currently is not working
         this.initPlayerOrder(players);
         this.initPlayerBoards(players);
         this.initDraftTilesCount(players);
@@ -112,7 +116,7 @@ public class GameState {
             throw new IllegalArgumentException("Invalid draft option index");
         }
 
-        if (!playerBoards.containsKey(playerId)) {
+        if (playerBoards.get(playerId) == null) {
             throw new IllegalArgumentException("Player not found");
         }
 
@@ -134,19 +138,62 @@ public class GameState {
         }
 
         player.setNextTileChoice(draftTiles[draftOptionIndex], draftOptionIndex);
+        this.nextPhase();
+    }
 
-//        if (!playerDraftPicks.containsKey(playerId) && !playerDraftPicks.containsValue(draftOptionIndex)) {
-//            playerDraftPicks.put(playerId, draftOptionIndex);
-//            playerDraftTiles.put(playerId, draftTiles[draftOptionIndex]);
-//        } else {
-//            throw new IllegalStateException("Draft option already picked");
-//        }
-//        if (playerDraftPicks.size() == players.length) {
-//            // all players have picked their draft options
-//            this.gamePhase = GamePhaseEnum.PLACE_TILES;
-//            // this.nextDraftTiles = this.getNewDraftTiles();
-//        }
-        // change phase to play tile
+
+    public void nextPhase() {
+        boolean isLastPlayer = currentPlayerIndex == playerOrder.length - 1;
+        if ((isLastPlayer && this.turnCounter == 0) || (isLastPlayer && this.gamePhase == GamePhaseEnum.PLACE_TILES)) {
+            this.createNewPlayerOrder();
+            this.startNewRound();
+        }
+        if (turnCounter == 0) {
+            this.nextPlayer();
+        } else {
+            if (this.gamePhase == GamePhaseEnum.CHOOSE_TILES) {
+                this.gamePhase = GamePhaseEnum.PLACE_TILES;
+            } else if (this.gamePhase == GamePhaseEnum.PLACE_TILES) {
+                this.nextPlayer();
+                this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
+            }
+        }
+    }
+
+
+    public void nextPlayer() {
+        if (currentPlayerIndex < playerOrder.length - 1) {
+            currentPlayerIndex++;
+            this.currentPlayerId = playerOrder[currentPlayerIndex];
+        }
+    }
+
+    public void createNewPlayerOrder() {
+        String[] newPlayerOrder = new String[playerOrder.length];
+        for (String id: playerMap.keySet()) {
+            Player player = playerMap.get(id);
+            PlayerTileChoice playerTileChoice = player.getNextTileChoice();
+            if (playerTileChoice == null) {
+                throw new IllegalStateException("Player has not picked a draft tile yet");
+            }
+            if (playerTileChoice.draftIndex >= 0 && playerTileChoice.draftIndex < newPlayerOrder.length) {
+                newPlayerOrder[playerTileChoice.draftIndex] = id;
+            }
+        }
+        this.playerOrder = newPlayerOrder;
+        this.currentPlayerIndex = 0;
+        this.currentPlayerId = playerOrder[currentPlayerIndex];
+    }
+
+    public void startNewRound() {
+        this.turnCounter++;
+        this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
+        this.draftTiles = this.getNewDraftTiles();
+        this.currentPlayerIndex = 0;
+        this.currentPlayerId = playerOrder[currentPlayerIndex];
+        for (Player player: playerMap.values()) {
+            player.updateCurrentTileChoice();
+        }
     }
 
     public void playTile(String playerId, Position pos1, Position pos2, Tile tile) {
@@ -175,8 +222,6 @@ public class GameState {
             this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
             this.draftTiles = this.nextDraftTiles.clone();
         }
-        // remove tile from draftTiles
-        // change phase to next player
     }
 
     public void wipeDraftOptions() {

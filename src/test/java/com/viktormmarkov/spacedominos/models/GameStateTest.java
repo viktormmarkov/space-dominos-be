@@ -127,11 +127,11 @@ class GameStateTest {
         });
     }
 
-    @Test
-    void getCurrentPlayerId() {
-    }
+   @Test
+   void playTile_success() {
+   }
 
-    @Test
-    void getPlayerOrder() {
-    }
+   void playTile_fail() {
+
+   }
 }

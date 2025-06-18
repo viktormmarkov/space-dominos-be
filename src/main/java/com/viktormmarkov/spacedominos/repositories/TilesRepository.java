@@ -36,6 +36,14 @@ public final class TilesRepository {
             new SquareTile(TileType.MOUNTAIN, 1),
             new SquareTile(TileType.WATER, 0),
         }),
+        new Tile(8, new SquareTile[]{
+                new SquareTile(TileType.MOUNTAIN, 1),
+                new SquareTile(TileType.WATER, 0),
+        }),
+        new Tile(9, new SquareTile[]{
+                new SquareTile(TileType.MOUNTAIN, 1),
+                new SquareTile(TileType.WATER, 0),
+        }),
         // Add more tiles as needed
     };
 
