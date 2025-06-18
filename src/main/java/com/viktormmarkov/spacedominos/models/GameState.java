@@ -13,14 +13,15 @@ import java.util.HashMap;
 @Getter
 public class GameState {
     private String gameId;
+    private GamePhaseEnum gamePhase;
     private Player[] players;
+    private Tile[] tilesDeck;
+    private HashMap<String, Player> playerMap;
     private String currentPlayerId;
     private int currentPlayerIndex;
     private String[] playerOrder;
-    private Tile[] tiles;
     private Tile[] draftTiles;
     private Tile[] nextDraftTiles;
-    private GamePhaseEnum gamePhase;
     private HashMap<String, Board> playerBoards;
     private int draftTilesCount;
     private HashMap<String, Integer> playerDraftPicks;
@@ -33,7 +34,7 @@ public class GameState {
         this.initDraftTilesCount(players);
         this.gameId = gameId;
         this.players = players;
-        this.tiles = TilesRepository.getShuffledTiles();
+        this.tilesDeck = TilesRepository.getShuffledTiles();
         this.draftTiles = new Tile[draftTilesCount];
         this.nextDraftTiles = new Tile[draftTilesCount];
         this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
@@ -52,6 +53,10 @@ public class GameState {
     private void initPlayerOrder(Player[] players) {
         if(players == null || players.length == 0) {
             return;
+        }
+        this.playerMap = new HashMap<>();
+        for (Player player : players) {
+            this.playerMap.put(player.getId(), player);
         }
         Player[] playersCopy = players.clone();
         java.util.Collections.shuffle(Arrays.asList(playersCopy));
@@ -79,18 +84,18 @@ public class GameState {
 
     public Tile[] getNewDraftTiles() {
         Tile[] newDraftItems = new Tile[draftTilesCount];
-        Tile[] newTiles = new Tile[tiles.length - draftTilesCount];
+        Tile[] newTiles = new Tile[tilesDeck.length - draftTilesCount];
 
         for (int i = 0; i < draftTilesCount; i++) {
-            Tile topTile = tiles[tiles.length - i - 1];
+            Tile topTile = tilesDeck[tilesDeck.length - i - 1];
              newDraftItems[i] = topTile;
         }
 
-        for (int i = 0; i < tiles.length - draftTilesCount; i++) {
-            newTiles[i] = tiles[i];
+        for (int i = 0; i < tilesDeck.length - draftTilesCount; i++) {
+            newTiles[i] = tilesDeck[i];
         }
 
-        this.tiles = newTiles;
+        this.tilesDeck = newTiles;
         // Sort the new draft items by GameTile number
         Arrays.sort(newDraftItems, (tile1, tile2) -> {
             if (tile1 == null || tile2 == null) {
@@ -106,20 +111,42 @@ public class GameState {
         if (draftOptionIndex < 0 || draftOptionIndex >= draftTilesCount) {
             throw new IllegalArgumentException("Invalid draft option index");
         }
-        if (!playerDraftPicks.containsKey(playerId) && !playerDraftPicks.containsValue(draftOptionIndex)) {
-            playerDraftPicks.put(playerId, draftOptionIndex);
-        } else {
-            throw new IllegalStateException("Draft option already picked");
-        }
-        if (playerDraftPicks.size() == players.length) {
-            // all players have picked their draft options
-            this.gamePhase = GamePhaseEnum.PLACE_TILES;
-            // this.nextDraftTiles = this.getNewDraftTiles();
-        }
-        // change phase to play tile
-    }
 
-    private void resetPlayerOrder() {
+        if (!playerBoards.containsKey(playerId)) {
+            throw new IllegalArgumentException("Player not found");
+        }
+
+        if (playerMap.get(playerId) == null) {
+            throw new IllegalArgumentException("Player not found in player map");
+        }
+
+        Player player = playerMap.get(playerId);
+
+        if (!player.canPickNextTile()) {
+            throw new IllegalStateException("Player has already picked a draft tile");
+        }
+
+        for (String id : playerMap.keySet()) {
+            PlayerTileChoice choice = playerMap.get(id).getNextTileChoice();
+            if (!id.equals(playerId) && choice != null && choice.draftIndex == draftOptionIndex) {
+                throw new IllegalStateException("Draft option already picked by another player");
+            }
+        }
+
+        player.setNextTileChoice(draftTiles[draftOptionIndex], draftOptionIndex);
+
+//        if (!playerDraftPicks.containsKey(playerId) && !playerDraftPicks.containsValue(draftOptionIndex)) {
+//            playerDraftPicks.put(playerId, draftOptionIndex);
+//            playerDraftTiles.put(playerId, draftTiles[draftOptionIndex]);
+//        } else {
+//            throw new IllegalStateException("Draft option already picked");
+//        }
+//        if (playerDraftPicks.size() == players.length) {
+//            // all players have picked their draft options
+//            this.gamePhase = GamePhaseEnum.PLACE_TILES;
+//            // this.nextDraftTiles = this.getNewDraftTiles();
+//        }
+        // change phase to play tile
     }
 
     public void playTile(String playerId, Position pos1, Position pos2, Tile tile) {

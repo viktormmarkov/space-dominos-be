@@ -59,14 +59,14 @@ class GameStateTest {
                         new Player("player2", "Player 2")
                 }
         );
-        int originalTileCount = gameState.getTiles().length;
+        int originalTileCount = gameState.getTilesDeck().length;
         // Act
 
         gameState.getNewDraftTiles();
 
         // Assert
         assertEquals(gameState.getDraftTilesCount(), gameState.getDraftTiles().length);
-        assertEquals(originalTileCount - gameState.getDraftTiles().length, gameState.getTiles().length);
+        assertEquals(originalTileCount - gameState.getDraftTiles().length, gameState.getTilesDeck().length);
         System.out.println("Draft Tiles: " + gameState.getDraftTiles().length);
     }
 
@@ -85,7 +85,7 @@ class GameStateTest {
         gameState.pickDraftTile(0, "player1");
 
         // Assert
-        assertTrue(gameState.getPlayerDraftPicks().containsKey("player1"));
+        assertEquals(gameState.getPlayerMap().get("player1").getNextTileChoice().draftIndex, 0);
     }
 
     @Test
