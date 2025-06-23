@@ -189,8 +189,7 @@ public class GameState {
         this.turnCounter++;
         this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
         this.draftTiles = this.getNewDraftTiles();
-        this.currentPlayerIndex = 0;
-        this.currentPlayerId = playerOrder[currentPlayerIndex];
+        this.createNewPlayerOrder();
         for (Player player: playerMap.values()) {
             player.updateCurrentTileChoice();
         }
@@ -206,22 +205,7 @@ public class GameState {
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException("Cannot place tile at the specified positions: " + e.getMessage());
         }
-        if (currentPlayerIndex < playerOrder.length - 1) {
-            currentPlayerIndex++;
-            this.currentPlayerId = playerOrder[currentPlayerIndex];
-        } else {
-            String[] newPlayerOrder = new String[playerOrder.length];
-            playerDraftPicks.forEach((key, value) -> {
-                newPlayerOrder[value] = key;
-            });
-
-            // reset player order
-            currentPlayerIndex = 0;
-            this.currentPlayerId = newPlayerOrder[currentPlayerIndex];
-            this.playerOrder = newPlayerOrder;
-            this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
-            this.draftTiles = this.nextDraftTiles.clone();
-        }
+        this.nextPhase();
     }
 
     public void wipeDraftOptions() {
