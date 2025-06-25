@@ -111,7 +111,7 @@ public class GameState {
         return newDraftItems;
     }
 
-    public void pickDraftTile(int draftOptionIndex, String playerId) {
+    public void chooseTile(String playerId, int draftOptionIndex) {
         if (draftOptionIndex < 0 || draftOptionIndex >= draftTilesCount) {
             throw new IllegalArgumentException("Invalid draft option index");
         }
@@ -141,25 +141,27 @@ public class GameState {
         this.nextPhase();
     }
 
-
     public void nextPhase() {
         boolean isLastPlayer = currentPlayerIndex == playerOrder.length - 1;
-        if ((isLastPlayer && this.turnCounter == 0) || (isLastPlayer && this.gamePhase == GamePhaseEnum.PLACE_TILES)) {
+        boolean isFirstTurn = this.turnCounter == 0;
+
+        boolean shouldStartNewRound = (isLastPlayer && isFirstTurn && this.gamePhase == GamePhaseEnum.CHOOSE_TILES) ||
+                                      (isLastPlayer && this.gamePhase == GamePhaseEnum.PLACE_TILES);
+
+        if (shouldStartNewRound) {
             this.createNewPlayerOrder();
             this.startNewRound();
-        }
-        if (turnCounter == 0) {
-            this.nextPlayer();
-        } else {
-            if (this.gamePhase == GamePhaseEnum.CHOOSE_TILES) {
-                this.gamePhase = GamePhaseEnum.PLACE_TILES;
-            } else if (this.gamePhase == GamePhaseEnum.PLACE_TILES) {
+        } else if (this.gamePhase == GamePhaseEnum.CHOOSE_TILES) {
+            if (isFirstTurn) {
                 this.nextPlayer();
-                this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
+            } else {
+                this.gamePhase = GamePhaseEnum.PLACE_TILES;
             }
+        } else if (this.gamePhase == GamePhaseEnum.PLACE_TILES) {
+            this.nextPlayer();
+            this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
         }
     }
-
 
     public void nextPlayer() {
         if (currentPlayerIndex < playerOrder.length - 1) {
@@ -202,10 +204,18 @@ public class GameState {
         Board playerBoard = playerBoards.get(playerId);
         try {
             playerBoard.placeGameTile(pos1, pos2, tile);
+            this.nextPhase();
         } catch (IllegalArgumentException e) {
             throw new IllegalStateException("Cannot place tile at the specified positions: " + e.getMessage());
         }
-        this.nextPhase();
+    }
+
+    public Player getPlayerById(String playerId) {
+        if (playerMap.containsKey(playerId)) {
+            return playerMap.get(playerId);
+        } else {
+            throw new IllegalArgumentException("Player not found with ID: " + playerId);
+        }
     }
 
     public void wipeDraftOptions() {
