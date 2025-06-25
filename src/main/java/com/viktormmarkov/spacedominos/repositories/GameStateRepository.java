@@ -2,10 +2,12 @@ package com.viktormmarkov.spacedominos.repositories;
 
 import com.viktormmarkov.spacedominos.models.game.GameState;
 import com.viktormmarkov.spacedominos.models.game.Player;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Service
 public final class GameStateRepository {
     GameStateRepository() {
         // Private constructor to prevent instantiation

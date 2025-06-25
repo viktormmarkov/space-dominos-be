@@ -39,8 +39,6 @@ class GameStateTest {
                 "gameId",
                 new Player[]{player1, player2}
         );
-        ObjectMapper objectMapper = new ObjectMapper();
-        System.out.println("GameState with two players: " + objectMapper.valueToTree(gameStateWithTwoPlayers));
 
         // for two players, each player will play twice.
         assertEquals(2, gameStateWithTwoPlayers.getPlayers().length);

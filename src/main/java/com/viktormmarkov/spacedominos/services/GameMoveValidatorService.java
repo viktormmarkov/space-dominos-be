@@ -1,7 +1,6 @@
 package com.viktormmarkov.spacedominos.services;
 
 import com.viktormmarkov.spacedominos.domain.enums.GamePhaseEnum;
-import com.viktormmarkov.spacedominos.models.game.actions.Action;
 import com.viktormmarkov.spacedominos.models.game.actions.ChooseTileAction;
 import com.viktormmarkov.spacedominos.models.game.GameState;
 import com.viktormmarkov.spacedominos.models.game.actions.PlaceTileAction;
@@ -19,10 +18,6 @@ public class GameMoveValidatorService {
     private boolean isGameInCorrectPhase(GamePhaseEnum phase) {
         // Check if the game is in a state that allows actions (e.g., not finished)
         return gameState.getGamePhase() == phase;
-    }
-
-    public boolean isValidMove(Action action) {
-        return false;
     }
 
     public boolean isValidMove(ChooseTileAction action) {
