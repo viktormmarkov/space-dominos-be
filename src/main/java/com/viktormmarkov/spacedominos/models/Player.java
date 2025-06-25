@@ -8,13 +8,13 @@ import lombok.Setter;
 public class Player {
     private String id;
     private String name;
-    private String secondaryId; // Assuming secondaryId is a unique
+    private String secondaryId;
     PlayerTileChoice currentTileChoice;
     PlayerTileChoice nextTileChoice;
 
     public Player(String id, String name) {
         this.id = id;
-        this.secondaryId = id + "_secondary"; // Assuming secondaryId is derived from id
+        this.secondaryId = id + "_secondary";
         this.name = name;
     }
 

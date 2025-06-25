@@ -1,10 +1,10 @@
 package com.viktormmarkov.spacedominos.services;
 
 import com.viktormmarkov.spacedominos.domain.enums.GamePhaseEnum;
-import com.viktormmarkov.spacedominos.models.Action;
-import com.viktormmarkov.spacedominos.models.ChooseTileAction;
+import com.viktormmarkov.spacedominos.models.actions.Action;
+import com.viktormmarkov.spacedominos.models.actions.ChooseTileAction;
 import com.viktormmarkov.spacedominos.models.GameState;
-import com.viktormmarkov.spacedominos.models.PlaceTileAction;
+import com.viktormmarkov.spacedominos.models.actions.PlaceTileAction;
 
 public class GameActionValidatorService {
     private final GameState gameState;

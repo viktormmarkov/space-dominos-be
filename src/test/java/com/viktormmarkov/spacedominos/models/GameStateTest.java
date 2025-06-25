@@ -54,7 +54,7 @@ class GameStateTest {
     }
 
     @Test
-    void getNewDraftTiles() {
+    void drawNewDraftTiles() {
         // Arrange
         GameState gameState = new GameState(
                 "gameId",
@@ -66,12 +66,11 @@ class GameStateTest {
         int originalTileCount = gameState.getTilesDeck().length;
         // Act
 
-        gameState.getNewDraftTiles();
+        gameState.drawNewDraftTiles();
 
         // Assert
         assertEquals(gameState.getDraftTilesCount(), gameState.getDraftTiles().length);
         assertEquals(originalTileCount - gameState.getDraftTiles().length, gameState.getTilesDeck().length);
-        System.out.println("Draft Tiles: " + gameState.getDraftTiles().length);
     }
 
     @Test

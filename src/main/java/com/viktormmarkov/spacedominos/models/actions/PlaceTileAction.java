@@ -1,8 +1,13 @@
-package com.viktormmarkov.spacedominos.models;
+package com.viktormmarkov.spacedominos.models.actions;
 
 import com.viktormmarkov.spacedominos.domain.enitities.Position;
 import com.viktormmarkov.spacedominos.domain.enums.ActionTypeEnum;
+import com.viktormmarkov.spacedominos.models.Tile;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class PlaceTileAction extends Action {
     private Position position1;
     private Position position2;

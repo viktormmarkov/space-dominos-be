@@ -84,7 +84,7 @@ public class GameState {
         }
     }
 
-    public Tile[] getNewDraftTiles() {
+    public void drawNewDraftTiles() {
         Tile[] newDraftItems = new Tile[draftTilesCount];
         Tile[] newTiles = new Tile[tilesDeck.length - draftTilesCount];
 
@@ -93,9 +93,7 @@ public class GameState {
              newDraftItems[i] = topTile;
         }
 
-        for (int i = 0; i < tilesDeck.length - draftTilesCount; i++) {
-            newTiles[i] = tilesDeck[i];
-        }
+        System.arraycopy(tilesDeck, 0, newTiles, 0, tilesDeck.length - draftTilesCount);
 
         this.tilesDeck = newTiles;
         // Sort the new draft items by GameTile number
@@ -106,7 +104,62 @@ public class GameState {
             return Integer.compare(tile1.getNumber(), tile2.getNumber());
         });
         this.draftTiles = newDraftItems;
-        return newDraftItems;
+    }
+
+    public void createNewPlayerOrder() {
+        String[] newPlayerOrder = new String[playerOrder.length];
+        for (String id: playerMap.keySet()) {
+            Player player = playerMap.get(id);
+            PlayerTileChoice playerTileChoice = player.getNextTileChoice();
+            if (playerTileChoice == null) {
+                throw new IllegalStateException("Player has not picked a draft tile yet");
+            }
+            if (playerTileChoice.draftIndex >= 0 && playerTileChoice.draftIndex < newPlayerOrder.length) {
+                newPlayerOrder[playerTileChoice.draftIndex] = id;
+            }
+        }
+        this.playerOrder = newPlayerOrder;
+        this.currentPlayerIndex = 0;
+        this.currentPlayerId = playerOrder[currentPlayerIndex];
+    }
+
+    public void nextPlayer() {
+        if (currentPlayerIndex < playerOrder.length - 1) {
+            currentPlayerIndex++;
+            this.currentPlayerId = playerOrder[currentPlayerIndex];
+        }
+    }
+
+    public void startNewRound() {
+        this.turnCounter++;
+        this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
+        this.drawNewDraftTiles();
+        this.createNewPlayerOrder();
+        for (Player player: playerMap.values()) {
+            player.updateCurrentTileChoice();
+        }
+    }
+
+    public void nextPhase() {
+        boolean isLastPlayer = currentPlayerIndex == playerOrder.length - 1;
+        boolean isFirstTurn = this.turnCounter == 0;
+
+        boolean shouldStartNewRound = (isLastPlayer && isFirstTurn && this.gamePhase == GamePhaseEnum.CHOOSE_TILES) ||
+                (isLastPlayer && this.gamePhase == GamePhaseEnum.PLACE_TILES);
+
+        if (shouldStartNewRound) {
+            this.createNewPlayerOrder();
+            this.startNewRound();
+        } else if (this.gamePhase == GamePhaseEnum.CHOOSE_TILES) {
+            if (isFirstTurn) {
+                this.nextPlayer();
+            } else {
+                this.gamePhase = GamePhaseEnum.PLACE_TILES;
+            }
+        } else if (this.gamePhase == GamePhaseEnum.PLACE_TILES) {
+            this.nextPlayer();
+            this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
+        }
     }
 
     public void chooseTile(String playerId, int draftOptionIndex) {
@@ -137,62 +190,6 @@ public class GameState {
 
         player.setNextTileChoice(draftTiles[draftOptionIndex], draftOptionIndex);
         this.nextPhase();
-    }
-
-    public void nextPhase() {
-        boolean isLastPlayer = currentPlayerIndex == playerOrder.length - 1;
-        boolean isFirstTurn = this.turnCounter == 0;
-
-        boolean shouldStartNewRound = (isLastPlayer && isFirstTurn && this.gamePhase == GamePhaseEnum.CHOOSE_TILES) ||
-                                      (isLastPlayer && this.gamePhase == GamePhaseEnum.PLACE_TILES);
-
-        if (shouldStartNewRound) {
-            this.createNewPlayerOrder();
-            this.startNewRound();
-        } else if (this.gamePhase == GamePhaseEnum.CHOOSE_TILES) {
-            if (isFirstTurn) {
-                this.nextPlayer();
-            } else {
-                this.gamePhase = GamePhaseEnum.PLACE_TILES;
-            }
-        } else if (this.gamePhase == GamePhaseEnum.PLACE_TILES) {
-            this.nextPlayer();
-            this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
-        }
-    }
-
-    public void nextPlayer() {
-        if (currentPlayerIndex < playerOrder.length - 1) {
-            currentPlayerIndex++;
-            this.currentPlayerId = playerOrder[currentPlayerIndex];
-        }
-    }
-
-    public void createNewPlayerOrder() {
-        String[] newPlayerOrder = new String[playerOrder.length];
-        for (String id: playerMap.keySet()) {
-            Player player = playerMap.get(id);
-            PlayerTileChoice playerTileChoice = player.getNextTileChoice();
-            if (playerTileChoice == null) {
-                throw new IllegalStateException("Player has not picked a draft tile yet");
-            }
-            if (playerTileChoice.draftIndex >= 0 && playerTileChoice.draftIndex < newPlayerOrder.length) {
-                newPlayerOrder[playerTileChoice.draftIndex] = id;
-            }
-        }
-        this.playerOrder = newPlayerOrder;
-        this.currentPlayerIndex = 0;
-        this.currentPlayerId = playerOrder[currentPlayerIndex];
-    }
-
-    public void startNewRound() {
-        this.turnCounter++;
-        this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
-        this.draftTiles = this.getNewDraftTiles();
-        this.createNewPlayerOrder();
-        for (Player player: playerMap.values()) {
-            player.updateCurrentTileChoice();
-        }
     }
 
     public void placeTile(String playerId, Position pos1, Position pos2, Tile tile) {
