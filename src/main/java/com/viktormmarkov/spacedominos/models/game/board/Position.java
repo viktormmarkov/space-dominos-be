@@ -1,4 +1,4 @@
-package com.viktormmarkov.spacedominos.domain.enitities;
+package com.viktormmarkov.spacedominos.models.game.board;
 
 public record Position(int x, int y) {
     public boolean hasNeighbor(Position other) {

@@ -1,4 +1,4 @@
-package com.viktormmarkov.spacedominos.models.actions;
+package com.viktormmarkov.spacedominos.models.game.actions;
 
 import com.viktormmarkov.spacedominos.domain.enums.ActionTypeEnum;
 import lombok.AllArgsConstructor;

@@ -1,8 +1,8 @@
 package com.viktormmarkov.spacedominos.helpers;
 
-import com.viktormmarkov.spacedominos.domain.enitities.Position;
-import com.viktormmarkov.spacedominos.models.Board;
-import com.viktormmarkov.spacedominos.models.Tile;
+import com.viktormmarkov.spacedominos.models.game.board.Position;
+import com.viktormmarkov.spacedominos.models.game.board.Board;
+import com.viktormmarkov.spacedominos.models.game.board.Tile;
 
 public final class BoardDrawer {
     private BoardDrawer() {

@@ -1,9 +1,8 @@
 package com.viktormmarkov.spacedominos.repositories;
 
-import com.viktormmarkov.spacedominos.models.GameState;
-import com.viktormmarkov.spacedominos.models.Player;
+import com.viktormmarkov.spacedominos.models.game.GameState;
+import com.viktormmarkov.spacedominos.models.game.Player;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 

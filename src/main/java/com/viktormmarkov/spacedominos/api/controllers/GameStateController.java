@@ -1,6 +1,6 @@
 package com.viktormmarkov.spacedominos.api.controllers;
 
-import com.viktormmarkov.spacedominos.models.GameState;
+import com.viktormmarkov.spacedominos.models.game.GameState;
 import com.viktormmarkov.spacedominos.repositories.GameStateRepository;
 import org.springframework.web.bind.annotation.*;
 

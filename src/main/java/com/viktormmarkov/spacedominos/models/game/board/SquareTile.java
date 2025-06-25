@@ -1,4 +1,4 @@
-package com.viktormmarkov.spacedominos.models;
+package com.viktormmarkov.spacedominos.models.game.board;
 
 import com.viktormmarkov.spacedominos.domain.enums.TileType;
 import lombok.AllArgsConstructor;

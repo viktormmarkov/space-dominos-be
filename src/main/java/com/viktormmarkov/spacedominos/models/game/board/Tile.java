@@ -1,7 +1,6 @@
-package com.viktormmarkov.spacedominos.models;
+package com.viktormmarkov.spacedominos.models.game.board;
 
 import com.viktormmarkov.spacedominos.repositories.TilesRepository;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,7 +1,7 @@
-package com.viktormmarkov.spacedominos.models.actions;
+package com.viktormmarkov.spacedominos.models.game.actions;
 
 import com.viktormmarkov.spacedominos.domain.enums.ActionTypeEnum;
-import com.viktormmarkov.spacedominos.models.Tile;
+import com.viktormmarkov.spacedominos.models.game.board.Tile;
 import lombok.Getter;
 import lombok.Setter;
 

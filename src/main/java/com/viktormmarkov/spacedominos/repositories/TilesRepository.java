@@ -1,7 +1,7 @@
 package com.viktormmarkov.spacedominos.repositories;
 
-import com.viktormmarkov.spacedominos.models.Tile;
-import com.viktormmarkov.spacedominos.models.SquareTile;
+import com.viktormmarkov.spacedominos.models.game.board.Tile;
+import com.viktormmarkov.spacedominos.models.game.board.SquareTile;
 import com.viktormmarkov.spacedominos.domain.enums.TileType;
 
 import java.util.Arrays;

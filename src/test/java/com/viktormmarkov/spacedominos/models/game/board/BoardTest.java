@@ -1,6 +1,5 @@
-package com.viktormmarkov.spacedominos.models;
+package com.viktormmarkov.spacedominos.models.game.board;
 
-import com.viktormmarkov.spacedominos.domain.enitities.Position;
 import com.viktormmarkov.spacedominos.domain.enums.TileType;
 import com.viktormmarkov.spacedominos.helpers.BoardDrawer;
 import org.junit.jupiter.api.BeforeEach;

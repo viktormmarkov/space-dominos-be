@@ -1,7 +1,7 @@
 package com.viktormmarkov.spacedominos.services;
 
-import com.viktormmarkov.spacedominos.models.GameState;
-import com.viktormmarkov.spacedominos.models.Player;
+import com.viktormmarkov.spacedominos.models.game.GameState;
+import com.viktormmarkov.spacedominos.models.game.Player;
 import org.junit.jupiter.api.Test;
 
 class GameMoveValidatorServiceTest {

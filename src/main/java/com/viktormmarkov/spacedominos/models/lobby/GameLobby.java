@@ -1,5 +1,6 @@
-package com.viktormmarkov.spacedominos.models;
+package com.viktormmarkov.spacedominos.models.lobby;
 
+import com.viktormmarkov.spacedominos.models.lobby.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,6 +17,6 @@ public class GameLobby {
     private Date createdAt;
     private Date startedAt;
     private Date endedAt;
-    private Player host;
-    private Player[] players;
+    private User host;
+    private User[] players;
 }

@@ -1,4 +1,4 @@
-package com.viktormmarkov.spacedominos.models;
+package com.viktormmarkov.spacedominos.models.lobby;
 
 public class User {
     private String id;

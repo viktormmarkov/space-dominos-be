@@ -1,8 +1,10 @@
-package com.viktormmarkov.spacedominos.models;
+package com.viktormmarkov.spacedominos.models.game;
 
-import com.viktormmarkov.spacedominos.domain.enitities.Position;
+import com.viktormmarkov.spacedominos.models.game.board.Position;
 import com.viktormmarkov.spacedominos.domain.enums.GamePhaseEnum;
 import com.viktormmarkov.spacedominos.domain.enums.TileType;
+import com.viktormmarkov.spacedominos.models.game.board.SquareTile;
+import com.viktormmarkov.spacedominos.models.game.board.Tile;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -88,7 +90,7 @@ class GameStateTest {
         gameState.chooseTile("player1", 0);
 
         // Assert
-        assertEquals(gameState.getPlayerMap().get("player1").getNextTileChoice().draftIndex, 0);
+        assertEquals(gameState.getPlayerMap().get("player1").getNextTileChoice().getDraftIndex(), 0);
     }
 
     @Test

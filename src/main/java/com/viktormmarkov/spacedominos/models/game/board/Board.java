@@ -1,10 +1,9 @@
-package com.viktormmarkov.spacedominos.models;
+package com.viktormmarkov.spacedominos.models.game.board;
 
 import com.viktormmarkov.spacedominos.domain.enums.TileType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import com.viktormmarkov.spacedominos.domain.enitities.Position;
 
 import java.util.Arrays;
 
