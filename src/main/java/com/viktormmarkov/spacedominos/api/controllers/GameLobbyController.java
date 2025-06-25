@@ -2,18 +2,15 @@ package com.viktormmarkov.spacedominos.api.controllers;
 
 import com.viktormmarkov.spacedominos.models.lobby.GameLobby;
 import com.viktormmarkov.spacedominos.models.lobby.User;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
 
 @RestController
 public class GameLobbyController {
     @CrossOrigin(origins = "*")
-    @RequestMapping("/api/games")
-    public List<GameLobby> getGames() {
+    @GetMapping("/api/games")
+    public List<GameLobby> getGameLobbies() {
         // This method should return a list of games.
         // For now, we will return an empty list.
         try {
@@ -26,19 +23,19 @@ public class GameLobbyController {
         }
     }
 
-    public GameLobby createGameLobby(String name, String password) {
+    @PostMapping("/api/games")
+    public GameLobby createGameLobby(String gameLobbyName, String password) {
         // id should be system generated and not an argument
         // should get the user and create a player object
         // This method should create a new game lobby.
         // For now, we will return a new GameLobby object with the provided parameters.
-        String gameId = "generated-game-id"; // This should be replaced with actual ID generation logic
-        return new GameLobby(gameId, name, password, new Date(), null, null, null, new User[0]);
+        return new GameLobby(gameLobbyName, password);
     }
 
     public GameLobby joinGameLobby(String gameId, User user) {
         // This method should allow a player to join an existing game lobby.
         // For now, we will return a new GameLobby object with the provided gameId and player.
-        return new GameLobby(gameId, "Game Name", "password", null, null, null, user, new User[]{user});
+        return new GameLobby("Game Name", "password");
     }
 
     public String starGame(String gameId) {

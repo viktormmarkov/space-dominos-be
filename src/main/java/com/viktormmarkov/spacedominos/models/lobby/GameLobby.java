@@ -1,13 +1,12 @@
 package com.viktormmarkov.spacedominos.models.lobby;
 
 import com.viktormmarkov.spacedominos.models.lobby.User;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Date;
 
-@AllArgsConstructor
+
 @Getter
 @Setter
 public class GameLobby {
@@ -19,4 +18,15 @@ public class GameLobby {
     private Date endedAt;
     private User host;
     private User[] players;
+
+    private String generateId() {
+        return "lobby-" + System.currentTimeMillis();
+    }
+
+    public GameLobby(String name, String password) {
+        this.id = generateId();
+        this.name = name;
+        this.password = password;
+        this.createdAt = new Date();
+    }
 }
