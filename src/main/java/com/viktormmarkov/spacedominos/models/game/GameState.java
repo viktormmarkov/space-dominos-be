@@ -1,5 +1,6 @@
 package com.viktormmarkov.spacedominos.models.game;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.viktormmarkov.spacedominos.models.game.board.Position;
 import com.viktormmarkov.spacedominos.domain.enums.GamePhaseEnum;
 import com.viktormmarkov.spacedominos.models.game.board.Board;

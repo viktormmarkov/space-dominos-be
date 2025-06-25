@@ -1,6 +1,6 @@
 package com.viktormmarkov.spacedominos.models.game.board;
 
-import com.viktormmarkov.spacedominos.domain.enums.TileType;
+import com.viktormmarkov.spacedominos.domain.enums.TileTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +27,7 @@ public class Board {
         int centerY = height / 2;
 
         // Create a castle tile (assuming a TileType for castle)
-        SquareTile castleSquareTile = new SquareTile(TileType.CASTLE, 0); // Assuming TileType.CASTLE is defined
+        SquareTile castleSquareTile = new SquareTile(TileTypeEnum.CASTLE, 0); // Assuming TileType.CASTLE is defined
         squareTiles[centerX][centerY] = castleSquareTile;
     }
 
@@ -51,7 +51,7 @@ public class Board {
             for (Position neighbor : neighbors) {
                 if (neighbor.x() >= 0 && neighbor.x() < width && neighbor.y() >= 0 && neighbor.y() < height) {
                     SquareTile neighborSquareTile = squareTiles[neighbor.x()][neighbor.y()];
-                    if (neighborSquareTile != null && (neighborSquareTile.getType().equals(squareTile.getType()) || neighborSquareTile.getType().equals(TileType.CASTLE))) {
+                    if (neighborSquareTile != null && (neighborSquareTile.getType().equals(squareTile.getType()) || neighborSquareTile.getType().equals(TileTypeEnum.CASTLE))) {
                         hasMatchingNeighbor = true;
                         break;
                     }

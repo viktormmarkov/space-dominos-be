@@ -1,6 +1,6 @@
 package com.viktormmarkov.spacedominos.models.game.board;
 
-import com.viktormmarkov.spacedominos.domain.enums.TileType;
+import com.viktormmarkov.spacedominos.domain.enums.TileTypeEnum;
 import com.viktormmarkov.spacedominos.repositories.TilesRepository;
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ public class TileTest {
 
     @Test
     void isExistingTile_fail_outOfBounds() {
-        Tile tile = new Tile(45, new SquareTile[]{new SquareTile(TileType.GRASS, 0), new SquareTile(TileType.WATER, 1)});
+        Tile tile = new Tile(45, new SquareTile[]{new SquareTile(TileTypeEnum.GRASS, 0), new SquareTile(TileTypeEnum.WATER, 1)});
 
         assertFalse(tile.isExistingTile());
     }
@@ -25,7 +25,7 @@ public class TileTest {
     @Test
     void isExistingTile_fail_noMatchTileType() {
         Tile tile = TilesRepository.getTiles()[0].clone();
-        tile.setSquareTiles(new SquareTile[]{new SquareTile(TileType.GRASS, 0), new SquareTile(TileType.GRASS, 1)});
+        tile.setSquareTiles(new SquareTile[]{new SquareTile(TileTypeEnum.GRASS, 0), new SquareTile(TileTypeEnum.GRASS, 1)});
 
         assertFalse(tile.isExistingTile());
     }
@@ -41,15 +41,15 @@ public class TileTest {
 
     @Test
     public void canInstantiateTile() {
-        SquareTile squareTile = new SquareTile(TileType.GRASS, 0);
+        SquareTile squareTile = new SquareTile(TileTypeEnum.GRASS, 0);
         Tile tile = new Tile(1, new SquareTile[]{squareTile, squareTile});
         assertNotNull(tile);
     }
 
     @Test
     public void testEquals() {
-        SquareTile squareTile1 = new SquareTile(TileType.GRASS, 0);
-        SquareTile squareTile2 = new SquareTile(TileType.GRASS, 0);
+        SquareTile squareTile1 = new SquareTile(TileTypeEnum.GRASS, 0);
+        SquareTile squareTile2 = new SquareTile(TileTypeEnum.GRASS, 0);
         Tile tile1 = new Tile(1, new SquareTile[]{squareTile1, squareTile2});
         Tile tile2 = new Tile(1, new SquareTile[]{squareTile1, squareTile2});
 
@@ -60,8 +60,8 @@ public class TileTest {
 
     @Test
     public void reverseSquareTileOrder() {
-        SquareTile squareTile1 = new SquareTile(TileType.GRASS, 0);
-        SquareTile squareTile2 = new SquareTile(TileType.GRASS, 0);
+        SquareTile squareTile1 = new SquareTile(TileTypeEnum.GRASS, 0);
+        SquareTile squareTile2 = new SquareTile(TileTypeEnum.GRASS, 0);
         Tile tile1 = new Tile(1, new SquareTile[]{squareTile1, squareTile2});
         Tile tile2 = new Tile(1, new SquareTile[]{squareTile2, squareTile1});
 
@@ -72,8 +72,8 @@ public class TileTest {
 
     @Test
     public void reverseSquareTileOrder_fail() {
-        SquareTile squareTile1 = new SquareTile(TileType.GRASS, 0);
-        SquareTile squareTile2 = new SquareTile(TileType.GRASS, 0);
+        SquareTile squareTile1 = new SquareTile(TileTypeEnum.GRASS, 0);
+        SquareTile squareTile2 = new SquareTile(TileTypeEnum.GRASS, 0);
         Tile tile1 = new Tile(1, new SquareTile[]{squareTile1, squareTile2});
         Tile tile2 = new Tile(1, new SquareTile[]{squareTile2, squareTile2});
 

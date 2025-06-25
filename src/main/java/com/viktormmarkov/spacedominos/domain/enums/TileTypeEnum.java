@@ -1,6 +1,6 @@
 package com.viktormmarkov.spacedominos.domain.enums;
 
-public enum TileType {
+public enum TileTypeEnum {
     GRASS,
     WATER,
     SWAMP,

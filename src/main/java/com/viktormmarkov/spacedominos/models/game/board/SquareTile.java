@@ -1,6 +1,6 @@
 package com.viktormmarkov.spacedominos.models.game.board;
 
-import com.viktormmarkov.spacedominos.domain.enums.TileType;
+import com.viktormmarkov.spacedominos.domain.enums.TileTypeEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,6 +13,6 @@ public class SquareTile {
         this.type = tile.getType();
         this.numberOfCrowns = tile.getNumberOfCrowns();
     }
-    private TileType type;
+    private TileTypeEnum type;
     private int numberOfCrowns;
 }

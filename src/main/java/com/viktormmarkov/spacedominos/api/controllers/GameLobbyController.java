@@ -1,7 +1,7 @@
 package com.viktormmarkov.spacedominos.api.controllers;
 
 import com.viktormmarkov.spacedominos.models.lobby.GameLobby;
-import com.viktormmarkov.spacedominos.models.game.Player;
+import com.viktormmarkov.spacedominos.models.lobby.User;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,13 +32,13 @@ public class GameLobbyController {
         // This method should create a new game lobby.
         // For now, we will return a new GameLobby object with the provided parameters.
         String gameId = "generated-game-id"; // This should be replaced with actual ID generation logic
-        return new GameLobby(gameId, name, password, new Date(), null, null, null, new Player[0]);
+        return new GameLobby(gameId, name, password, new Date(), null, null, null, new User[0]);
     }
 
-    public GameLobby joinGameLobby(String gameId, Player player) {
+    public GameLobby joinGameLobby(String gameId, User user) {
         // This method should allow a player to join an existing game lobby.
         // For now, we will return a new GameLobby object with the provided gameId and player.
-        return new GameLobby(gameId, "Game Name", "password", null, null, null, player, new Player[]{player});
+        return new GameLobby(gameId, "Game Name", "password", null, null, null, user, new User[]{user});
     }
 
     public String starGame(String gameId) {

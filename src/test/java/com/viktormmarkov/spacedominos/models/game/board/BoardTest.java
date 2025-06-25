@@ -1,7 +1,6 @@
 package com.viktormmarkov.spacedominos.models.game.board;
 
-import com.viktormmarkov.spacedominos.domain.enums.TileType;
-import com.viktormmarkov.spacedominos.helpers.BoardDrawer;
+import com.viktormmarkov.spacedominos.domain.enums.TileTypeEnum;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -20,10 +19,10 @@ class BoardTest {
 
     @BeforeAll
     static void init() {
-        squareTile1 = new SquareTile(TileType.GRASS, 0);
-        squareTile2 = new SquareTile(TileType.WATER, 1);
-        squareTile3 = new SquareTile(TileType.GRASS, 2);
-        squareTile4 = new SquareTile(TileType.WATER, 3);
+        squareTile1 = new SquareTile(TileTypeEnum.GRASS, 0);
+        squareTile2 = new SquareTile(TileTypeEnum.WATER, 1);
+        squareTile3 = new SquareTile(TileTypeEnum.GRASS, 2);
+        squareTile4 = new SquareTile(TileTypeEnum.WATER, 3);
         tile1 = new Tile(0, new SquareTile[] {squareTile1, squareTile2});
         tile2 = new Tile(1, new SquareTile[] {squareTile3, squareTile4});
     }
@@ -40,7 +39,7 @@ class BoardTest {
         assertEquals(new Position(2, 2), center);
         // Check if the castle tile is placed at the center position
         assertNotNull(board.getTileAt(center));
-        assertEquals(TileType.CASTLE, board.getTileAt(center).getType());
+        assertEquals(TileTypeEnum.CASTLE, board.getTileAt(center).getType());
     }
 
     @Test

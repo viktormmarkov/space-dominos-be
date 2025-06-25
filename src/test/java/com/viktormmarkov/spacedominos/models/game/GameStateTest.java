@@ -1,8 +1,9 @@
 package com.viktormmarkov.spacedominos.models.game;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.viktormmarkov.spacedominos.models.game.board.Position;
 import com.viktormmarkov.spacedominos.domain.enums.GamePhaseEnum;
-import com.viktormmarkov.spacedominos.domain.enums.TileType;
+import com.viktormmarkov.spacedominos.domain.enums.TileTypeEnum;
 import com.viktormmarkov.spacedominos.models.game.board.SquareTile;
 import com.viktormmarkov.spacedominos.models.game.board.Tile;
 import org.junit.jupiter.api.BeforeAll;
@@ -38,6 +39,8 @@ class GameStateTest {
                 "gameId",
                 new Player[]{player1, player2}
         );
+        ObjectMapper objectMapper = new ObjectMapper();
+        System.out.println("GameState with two players: " + objectMapper.valueToTree(gameStateWithTwoPlayers));
 
         // for two players, each player will play twice.
         assertEquals(2, gameStateWithTwoPlayers.getPlayers().length);
@@ -144,8 +147,8 @@ class GameStateTest {
         );
         String lastPlayer = gameState.getPlayerOrder()[2];
         gameState.setGamePhase(GamePhaseEnum.PLACE_TILES);
-        SquareTile squareTile1 = new SquareTile(TileType.GRASS, 1);
-        SquareTile squareTile2 = new SquareTile(TileType.GRASS, 2);
+        SquareTile squareTile1 = new SquareTile(TileTypeEnum.GRASS, 1);
+        SquareTile squareTile2 = new SquareTile(TileTypeEnum.GRASS, 2);
         gameState.placeTile(
                 lastPlayer,
                 new Position(2, 1),
@@ -168,8 +171,8 @@ class GameStateTest {
         );
         String lastPlayer = gameState.getPlayerOrder()[2];
         gameState.setGamePhase(GamePhaseEnum.PLACE_TILES);
-        SquareTile squareTile1 = new SquareTile(TileType.GRASS, 1);
-        SquareTile squareTile2 = new SquareTile(TileType.GRASS, 2);
+        SquareTile squareTile1 = new SquareTile(TileTypeEnum.GRASS, 1);
+        SquareTile squareTile2 = new SquareTile(TileTypeEnum.GRASS, 2);
 
         assertThrows(IllegalStateException.class, () -> {
             gameState.placeTile(
@@ -191,8 +194,8 @@ class GameStateTest {
                         new Player("player3", "Player 3")
                 }
         );
-        SquareTile squareTile1 = new SquareTile(TileType.GRASS, 1);
-        SquareTile squareTile2 = new SquareTile(TileType.GRASS, 2);
+        SquareTile squareTile1 = new SquareTile(TileTypeEnum.GRASS, 1);
+        SquareTile squareTile2 = new SquareTile(TileTypeEnum.GRASS, 2);
         Tile dummyTile = new Tile(4, new SquareTile[]{squareTile1, squareTile2});
 
         gameState.getPlayerById("player1").setNextTileChoice(dummyTile, 0);
@@ -217,8 +220,8 @@ class GameStateTest {
                 }
         );
         int lastPlayerIndex = gameState.getPlayerOrder().length - 1;
-        SquareTile squareTile1 = new SquareTile(TileType.GRASS, 1);
-        SquareTile squareTile2 = new SquareTile(TileType.GRASS, 2);
+        SquareTile squareTile1 = new SquareTile(TileTypeEnum.GRASS, 1);
+        SquareTile squareTile2 = new SquareTile(TileTypeEnum.GRASS, 2);
         gameState.setTurnCounter(1);
         Tile dummyTile = new Tile(4, new SquareTile[]{squareTile1, squareTile2});
 
@@ -245,8 +248,8 @@ class GameStateTest {
                 }
         );
         gameState.setGamePhase(GamePhaseEnum.PLACE_TILES);
-        SquareTile squareTile1 = new SquareTile(TileType.GRASS, 1);
-        SquareTile squareTile2 = new SquareTile(TileType.GRASS, 2);
+        SquareTile squareTile1 = new SquareTile(TileTypeEnum.GRASS, 1);
+        SquareTile squareTile2 = new SquareTile(TileTypeEnum.GRASS, 2);
         Tile dummyTile = new Tile(4, new SquareTile[]{squareTile1, squareTile2});
 
         gameState.getPlayerById("player1").setNextTileChoice(dummyTile, 0);
