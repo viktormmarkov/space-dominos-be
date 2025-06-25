@@ -24,7 +24,6 @@ public class GameState {
     private Tile[] nextDraftTiles;
     private HashMap<String, Board> playerBoards;
     private int draftTilesCount;
-    private HashMap<String, Integer> playerDraftPicks;
     private HashMap<String, Tile> playerDraftTiles;
     private int turnCounter = 0;
 
@@ -42,7 +41,6 @@ public class GameState {
         this.draftTiles = new Tile[draftTilesCount];
         this.nextDraftTiles = new Tile[draftTilesCount];
         this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
-        this.playerDraftPicks = new HashMap<>();
     }
 
     private void initDraftTilesCount(Player[] players) {
@@ -197,7 +195,7 @@ public class GameState {
         }
     }
 
-    public void playTile(String playerId, Position pos1, Position pos2, Tile tile) {
+    public void placeTile(String playerId, Position pos1, Position pos2, Tile tile) {
         if (!playerBoards.containsKey(playerId)) {
             throw new IllegalArgumentException("Player not found");
         }
@@ -216,9 +214,5 @@ public class GameState {
         } else {
             throw new IllegalArgumentException("Player not found with ID: " + playerId);
         }
-    }
-
-    public void wipeDraftOptions() {
-        playerDraftPicks.clear();
     }
 }

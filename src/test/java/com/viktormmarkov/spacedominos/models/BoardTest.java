@@ -27,8 +27,6 @@ class BoardTest {
         squareTile4 = new SquareTile(TileType.WATER, 3);
         tile1 = new Tile(0, new SquareTile[] {squareTile1, squareTile2});
         tile2 = new Tile(1, new SquareTile[] {squareTile3, squareTile4});
-        // This method is called once before all tests in this class
-        // You can use it to set up any static resources if needed
     }
 
     @BeforeEach

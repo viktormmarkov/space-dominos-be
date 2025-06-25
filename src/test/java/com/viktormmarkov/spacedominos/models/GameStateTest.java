@@ -132,7 +132,7 @@ class GameStateTest {
     }
 
     @Test
-    void playTile_success() {
+    void placeTile_success() {
         GameState gameState = new GameState(
                 "gameId",
                 new Player[]{
@@ -145,7 +145,7 @@ class GameStateTest {
         gameState.setGamePhase(GamePhaseEnum.PLACE_TILES);
         SquareTile squareTile1 = new SquareTile(TileType.GRASS, 1);
         SquareTile squareTile2 = new SquareTile(TileType.GRASS, 2);
-        gameState.playTile(
+        gameState.placeTile(
                 lastPlayer,
                 new Position(2, 1),
                 new Position(3, 1),
@@ -156,7 +156,7 @@ class GameStateTest {
     }
 
     @Test
-    void playTile_fail() {
+    void placeTile_fail() {
         GameState gameState = new GameState(
                 "gameId",
                 new Player[]{
@@ -171,7 +171,7 @@ class GameStateTest {
         SquareTile squareTile2 = new SquareTile(TileType.GRASS, 2);
 
         assertThrows(IllegalStateException.class, () -> {
-            gameState.playTile(
+            gameState.placeTile(
                     lastPlayer,
                     new Position(0, 0),
                     new Position(1, 0),
