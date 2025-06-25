@@ -18,4 +18,14 @@ public class PlaceTileAction extends Action {
         this.position2 = position2;
         this.tile = tile;
     }
+
+    @Override
+    public boolean isValid() {
+        boolean noNullPositions = position1 != null && position2 != null;
+        boolean hasNeighbouringPositions = noNullPositions && position1.hasNeighbor(position2);
+        boolean hasTile = tile != null;
+        boolean tileExists = hasTile && tile.isExistingTile();
+
+        return tileExists && hasNeighbouringPositions;
+    }
 }

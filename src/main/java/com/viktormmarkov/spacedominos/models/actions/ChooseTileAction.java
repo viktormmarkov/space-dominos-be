@@ -15,4 +15,13 @@ public class ChooseTileAction extends Action {
         this.draftTileIndex = draftTileIndex;
         this.tile = tile;
     }
+
+    @Override
+    public boolean isValid() {
+        boolean hasTile = tile != null;
+        boolean tileExists = hasTile && tile.isExistingTile();
+        boolean validIndex = draftTileIndex >= 0 && draftTileIndex < 4; // Assuming there are always 4 draft tiles
+
+        return tileExists && validIndex;
+    }
 }

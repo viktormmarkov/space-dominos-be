@@ -9,4 +9,9 @@ import lombok.Getter;
 public class Action {
     protected String playerId;
     protected ActionTypeEnum actionType;
+
+    public boolean isValid() {
+        // Default implementation, can be overridden by subclasses
+        throw new UnsupportedOperationException("isValid method not implemented for this action type");
+    }
 }

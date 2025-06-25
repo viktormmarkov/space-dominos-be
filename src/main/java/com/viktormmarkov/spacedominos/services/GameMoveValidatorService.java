@@ -6,9 +6,9 @@ import com.viktormmarkov.spacedominos.models.actions.ChooseTileAction;
 import com.viktormmarkov.spacedominos.models.GameState;
 import com.viktormmarkov.spacedominos.models.actions.PlaceTileAction;
 
-public class GameActionValidatorService {
+public class GameMoveValidatorService {
     private final GameState gameState;
-    public GameActionValidatorService(GameState gameState) {
+    public GameMoveValidatorService(GameState gameState) {
         this.gameState = gameState;
     }
     private boolean isPlayerTurn(String playerId) {
@@ -26,16 +26,11 @@ public class GameActionValidatorService {
     }
 
     public boolean isValidMove(ChooseTileAction action) {
-        // Validate the ChooseTileAction
-        return isPlayerTurn(action.getPlayerId()) && isGameInCorrectPhase(GamePhaseEnum.CHOOSE_TILES);
+        return isPlayerTurn(action.getPlayerId()) && isGameInCorrectPhase(GamePhaseEnum.CHOOSE_TILES) && action.isValid();
     }
 
     public boolean isValidMove(PlaceTileAction action) {
-        // Validate the PlaceTileAction
-        // Check if the tile can be placed on the board at the specified position
-        // Check if the player has enough resources to place the tile
-        // Check if the tile is valid according to game rules
-        return isPlayerTurn(action.getPlayerId()) && isGameInCorrectPhase(GamePhaseEnum.PLACE_TILES);
+        return isPlayerTurn(action.getPlayerId()) && isGameInCorrectPhase(GamePhaseEnum.PLACE_TILES) && action.isValid();
     }
 
 }

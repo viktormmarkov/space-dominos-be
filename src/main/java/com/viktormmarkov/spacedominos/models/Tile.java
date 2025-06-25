@@ -21,7 +21,7 @@ public class Tile implements Cloneable {
         this.squareTiles = squareTiles;
     }
 
-    boolean isExistingTile() {
+    public boolean isExistingTile() {
         Tile[] allTiles = TilesRepository.getTiles();
         if (number < 1 || number > allTiles.length) {
             return false;

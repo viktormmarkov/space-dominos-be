@@ -4,7 +4,7 @@ import com.viktormmarkov.spacedominos.models.GameState;
 import com.viktormmarkov.spacedominos.models.Player;
 import org.junit.jupiter.api.Test;
 
-class GameActionValidatorServiceTest {
+class GameMoveValidatorServiceTest {
     @Test
     void isValidMove_chooseTile_success() {
         GameState gameState = new GameState(
@@ -15,7 +15,7 @@ class GameActionValidatorServiceTest {
                 }
         );
 
-        GameActionValidatorService validatorService = new GameActionValidatorService(gameState);
+        GameMoveValidatorService validatorService = new GameMoveValidatorService(gameState);
     }
 
     @Test
