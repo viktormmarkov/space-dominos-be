@@ -12,6 +12,9 @@ public class ChooseTileAction extends Action {
     private Tile tile;
     public ChooseTileAction(String playerId, int draftTileIndex, Tile tile) {
         super(playerId, ActionTypeEnum.CHOOSE_TILE);
+        if (!this.isValid()) {
+            throw new IllegalArgumentException("Draft tile index must be between 0 and 3.");
+        }
         this.draftTileIndex = draftTileIndex;
         this.tile = tile;
     }

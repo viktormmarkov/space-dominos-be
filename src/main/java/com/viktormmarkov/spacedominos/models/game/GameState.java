@@ -1,6 +1,7 @@
 package com.viktormmarkov.spacedominos.models.game;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.viktormmarkov.spacedominos.models.game.actions.ChooseTileAction;
+import com.viktormmarkov.spacedominos.models.game.actions.PlaceTileAction;
 import com.viktormmarkov.spacedominos.models.game.board.Position;
 import com.viktormmarkov.spacedominos.domain.enums.GamePhaseEnum;
 import com.viktormmarkov.spacedominos.models.game.board.Board;
@@ -31,7 +32,7 @@ public class GameState {
     private int turnCounter = 0;
 
     public GameState(String gameId, Player[] players) {
-        if (players == null || players.length == 0) {
+        if (players == null || players.length > 3) {
             throw new IllegalArgumentException("Players cannot be null or empty");
         }
         // add check for two players or fix logic as each player will play twice, currently is not working
@@ -87,29 +88,7 @@ public class GameState {
         }
     }
 
-    public void drawNewDraftTiles() {
-        Tile[] newDraftItems = new Tile[draftTilesCount];
-        Tile[] newTiles = new Tile[tilesDeck.length - draftTilesCount];
-
-        for (int i = 0; i < draftTilesCount; i++) {
-            Tile topTile = tilesDeck[tilesDeck.length - i - 1];
-             newDraftItems[i] = topTile;
-        }
-
-        System.arraycopy(tilesDeck, 0, newTiles, 0, tilesDeck.length - draftTilesCount);
-
-        this.tilesDeck = newTiles;
-        // Sort the new draft items by GameTile number
-        Arrays.sort(newDraftItems, (tile1, tile2) -> {
-            if (tile1 == null || tile2 == null) {
-                return 0; // Handle null tiles gracefully
-            }
-            return Integer.compare(tile1.getNumber(), tile2.getNumber());
-        });
-        this.draftTiles = newDraftItems;
-    }
-
-    public void createNewPlayerOrder() {
+    private void createNewPlayerOrder() {
         String[] newPlayerOrder = new String[playerOrder.length];
         for (String id: playerMap.keySet()) {
             Player player = playerMap.get(id);
@@ -126,14 +105,14 @@ public class GameState {
         this.currentPlayerId = playerOrder[currentPlayerIndex];
     }
 
-    public void nextPlayer() {
+    private void nextPlayer() {
         if (currentPlayerIndex < playerOrder.length - 1) {
             currentPlayerIndex++;
             this.currentPlayerId = playerOrder[currentPlayerIndex];
         }
     }
 
-    public void startNewRound() {
+    private void startNewRound() {
         this.turnCounter++;
         this.gamePhase = GamePhaseEnum.CHOOSE_TILES;
         this.drawNewDraftTiles();
@@ -143,7 +122,29 @@ public class GameState {
         }
     }
 
-    public void nextPhase() {
+    protected void drawNewDraftTiles() {
+        Tile[] newDraftItems = new Tile[draftTilesCount];
+        Tile[] newTiles = new Tile[tilesDeck.length - draftTilesCount];
+
+        for (int i = 0; i < draftTilesCount; i++) {
+            Tile topTile = tilesDeck[tilesDeck.length - i - 1];
+            newDraftItems[i] = topTile;
+        }
+
+        System.arraycopy(tilesDeck, 0, newTiles, 0, tilesDeck.length - draftTilesCount);
+
+        this.tilesDeck = newTiles;
+        // Sort the new draft items by GameTile number
+        Arrays.sort(newDraftItems, (tile1, tile2) -> {
+            if (tile1 == null || tile2 == null) {
+                return 0; // Handle null tiles gracefully
+            }
+            return Integer.compare(tile1.getNumber(), tile2.getNumber());
+        });
+        this.draftTiles = newDraftItems;
+    }
+
+    public synchronized void nextPhase() {
         boolean isLastPlayer = currentPlayerIndex == playerOrder.length - 1;
         boolean isFirstTurn = this.turnCounter == 0;
 
@@ -165,7 +166,10 @@ public class GameState {
         }
     }
 
-    public void chooseTile(String playerId, int draftOptionIndex) {
+    public synchronized void chooseTile(ChooseTileAction action) {
+    String playerId = action.getPlayerId();
+    int draftOptionIndex = action.getDraftTileIndex();
+
         if (draftOptionIndex < 0 || draftOptionIndex >= draftTilesCount) {
             throw new IllegalArgumentException("Invalid draft option index");
         }
@@ -195,12 +199,16 @@ public class GameState {
         this.nextPhase();
     }
 
-    public void placeTile(String playerId, Position pos1, Position pos2, Tile tile) {
+    public synchronized void placeTile(PlaceTileAction action) {
+        String playerId = action.getPlayerId();
         if (!playerBoards.containsKey(playerId)) {
             throw new IllegalArgumentException("Player not found");
         }
         Board playerBoard = playerBoards.get(playerId);
         try {
+            Tile tile = action.getTile();
+            Position pos1 = action.getTilePosition().getPosition1();
+            Position pos2 = action.getTilePosition().getPosition2();
             playerBoard.placeGameTile(pos1, pos2, tile);
             this.nextPhase();
         } catch (IllegalArgumentException e) {

@@ -1,11 +1,14 @@
 package com.viktormmarkov.spacedominos.models.game;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.viktormmarkov.spacedominos.models.game.actions.ChooseTileAction;
+import com.viktormmarkov.spacedominos.models.game.actions.PlaceTileAction;
 import com.viktormmarkov.spacedominos.models.game.board.Position;
 import com.viktormmarkov.spacedominos.domain.enums.GamePhaseEnum;
 import com.viktormmarkov.spacedominos.domain.enums.TileTypeEnum;
 import com.viktormmarkov.spacedominos.models.game.board.SquareTile;
 import com.viktormmarkov.spacedominos.models.game.board.Tile;
+import com.viktormmarkov.spacedominos.models.game.board.TilePosition;
+import com.viktormmarkov.spacedominos.repositories.TilesRepository;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -87,8 +90,14 @@ class GameStateTest {
                 }
         );
 
+        ChooseTileAction chooseTileAction = new ChooseTileAction(
+                "player1",
+                0,
+                gameState.getDraftTiles()[0]
+        );
+
         // Act
-        gameState.chooseTile("player1", 0);
+        gameState.chooseTile(chooseTileAction);
 
         // Assert
         assertEquals(gameState.getPlayerMap().get("player1").getNextTileChoice().getDraftIndex(), 0);
@@ -104,12 +113,22 @@ class GameStateTest {
                         new Player("player2", "Player 2")
                 }
         );
+        ChooseTileAction chooseTileAction = new ChooseTileAction(
+                "player1",
+                0,
+                gameState.getDraftTiles()[0]
+        );
+        ChooseTileAction illegalChooseTileAction = new ChooseTileAction(
+                "player1",
+                1,
+                gameState.getDraftTiles()[1]
+        );
 
         // Act
-        gameState.chooseTile("player1", 0);
+        gameState.chooseTile(chooseTileAction);
 
         assertThrows(IllegalStateException.class, () -> {
-            gameState.chooseTile("player1", 1);
+            gameState.chooseTile(illegalChooseTileAction);
         });
     }
 
@@ -123,13 +142,24 @@ class GameStateTest {
                         new Player("player2", "Player 2")
                 }
         );
+        ChooseTileAction chooseTileAction = new ChooseTileAction(
+                "player1",
+                0,
+                gameState.getDraftTiles()[0]
+        );
+        ChooseTileAction illegalChooseTileAction = new ChooseTileAction(
+                "player2",
+                0,
+                gameState.getDraftTiles()[0]
+        );
+
 
         // Act
-        gameState.chooseTile( "player1", 0);
+        gameState.chooseTile( chooseTileAction);
 
         // Assert
         assertThrows(IllegalStateException.class, () -> {
-            gameState.chooseTile("player2", 0);
+            gameState.chooseTile(illegalChooseTileAction);
         });
     }
 
@@ -145,13 +175,17 @@ class GameStateTest {
         );
         String lastPlayer = gameState.getPlayerOrder()[2];
         gameState.setGamePhase(GamePhaseEnum.PLACE_TILES);
-        SquareTile squareTile1 = new SquareTile(TileTypeEnum.GRASS, 1);
-        SquareTile squareTile2 = new SquareTile(TileTypeEnum.GRASS, 2);
-        gameState.placeTile(
+
+        PlaceTileAction placeTileAction = new PlaceTileAction(
                 lastPlayer,
-                new Position(2, 1),
-                new Position(3, 1),
-                new Tile(4, new SquareTile[]{squareTile1, squareTile2}));
+                new TilePosition(
+                        new Position(2, 1),
+                        new Position(3, 1)
+                ),
+                TilesRepository.getTiles()[8]
+        );
+
+        gameState.placeTile(placeTileAction);
 
 
         assertEquals(gameState.getGamePhase(), GamePhaseEnum.CHOOSE_TILES);
@@ -169,15 +203,16 @@ class GameStateTest {
         );
         String lastPlayer = gameState.getPlayerOrder()[2];
         gameState.setGamePhase(GamePhaseEnum.PLACE_TILES);
-        SquareTile squareTile1 = new SquareTile(TileTypeEnum.GRASS, 1);
-        SquareTile squareTile2 = new SquareTile(TileTypeEnum.GRASS, 2);
-
+        PlaceTileAction placeTileAction = new PlaceTileAction(
+                lastPlayer,
+                new TilePosition(
+                        new Position(0, 0),
+                        new Position(1, 0)
+                ),
+                TilesRepository.getTiles()[0]
+        );
         assertThrows(IllegalStateException.class, () -> {
-            gameState.placeTile(
-                    lastPlayer,
-                    new Position(0, 0),
-                    new Position(1, 0),
-                    new Tile(4, new SquareTile[]{squareTile1, squareTile2}));
+            gameState.placeTile(placeTileAction);
         });
         assertEquals(gameState.getGamePhase(), GamePhaseEnum.PLACE_TILES);
     }

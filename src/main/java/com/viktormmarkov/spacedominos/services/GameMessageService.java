@@ -22,10 +22,7 @@ public class GameMessageService {
             case CHOOSE_TILE:
                 ChooseTileAction chooseTileAction = (ChooseTileAction) action;
                 if (gameMoveValidatorService.isValidMove(chooseTileAction)) {
-                    gameState.chooseTile(
-                            chooseTileAction.getPlayerId(),
-                            chooseTileAction.getDraftTileIndex()
-                    );
+                    gameState.chooseTile(chooseTileAction);
                 } else {
                     throw new IllegalArgumentException("Move is not valid");
                 }
@@ -33,12 +30,7 @@ public class GameMessageService {
             case PLACE_TILE:
                 PlaceTileAction placeTileAction = (PlaceTileAction) action;
                 if (gameMoveValidatorService.isValidMove(placeTileAction)) {
-                    gameState.placeTile(
-                            action.getPlayerId(),
-                            placeTileAction.getPosition1(),
-                            placeTileAction.getPosition2(),
-                            placeTileAction.getTile()
-                    );
+                    gameState.placeTile(placeTileAction);
                 } else {
                     throw new IllegalArgumentException("Move is not valid");
                 }
