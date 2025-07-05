@@ -1,6 +1,6 @@
 package com.viktormmarkov.spacedominos.models.lobby;
 
-import com.viktormmarkov.spacedominos.models.lobby.User;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,22 +9,27 @@ import java.util.Date;
 
 @Getter
 @Setter
+@Entity
+@Table(name = "game_lobby")
 public class GameLobby {
-    private String id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String name;
     private String password;
     private Date createdAt;
+    private Date updatedAt;
     private Date startedAt;
     private Date endedAt;
-    private User host;
-    private User[] players;
 
-    private String generateId() {
-        return "lobby-" + System.currentTimeMillis();
+    @Column(name = "host_id")
+    private int host;
+
+    public GameLobby() {
+        this.createdAt = new Date();
     }
 
     public GameLobby(String name, String password) {
-        this.id = generateId();
         this.name = name;
         this.password = password;
         this.createdAt = new Date();

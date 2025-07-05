@@ -4,6 +4,11 @@ services:
     environment:
       - 'POSTGRES_DB=space-dominos'
       - 'POSTGRES_PASSWORD=secret'
-      - 'POSTGRES_USER=postgres'
+      - 'POSTGRES_USER=root'
     ports:
-      - '5432'
+      - '5431:5432'
+    volumes:
+      - 'postgres:/var/lib/postgresql/data'
+volumes:
+  postgres:
+

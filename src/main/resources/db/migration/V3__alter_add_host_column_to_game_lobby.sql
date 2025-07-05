@@ -1,0 +1,2 @@
+ALTER TABLE game_lobby
+ADD COLUMN host_id BIGINT REFERENCES "user" (id) ON DELETE SET NULL;
