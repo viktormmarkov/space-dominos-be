@@ -1,4 +1,10 @@
 services:
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6371:6379"
+    command: [ "redis-server", "--appendonly", "yes" ]
   postgres:
     image: 'postgres:latest'
     environment:
