@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 
@@ -11,7 +12,7 @@ import java.util.Date;
 @Setter
 @Entity
 @Table(name = "game_lobby")
-public class GameLobby {
+public class GameLobby implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

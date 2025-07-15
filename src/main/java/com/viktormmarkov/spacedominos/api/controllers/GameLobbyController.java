@@ -39,9 +39,15 @@ public class GameLobbyController {
         return new GameLobby("Game Name", "password");
     }
 
-    public String starGame(String gameId) {
+    public String startGame(String gameId) {
         // This method should start the game with the given gameId.
         // For now, we will return a success message.
         return "Game with ID " + gameId + " has started successfully.";
+    }
+
+    @GetMapping("/{id}")
+    public GameLobby getGameLobbyById(@PathVariable int id) {
+        // This method should return a game lobby by its ID.
+        return gameLobbyService.findGameLobbyById(id);
     }
 }
