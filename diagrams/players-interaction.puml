@@ -1,0 +1,35 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+actor Player1 as p1
+actor Player2 as p2
+
+box "Game Backend" #LightBlue
+    participant "Player 1 Server" as server1
+    participant "Player 2 Server" as server2
+    database "Game Database" as db
+end box
+
+== normal flow ==
+p1-> server1++: Make Move
+server1->server1: Validate Move
+server1->db: Update Game State
+server1 -> p1: Update Game State
+server1 -> p2: Update Game State
+deactivate server1
+
+== race condition ==
+p1-> server1 ++: Make Move
+server1->server1: Validate Move
+p2-> server2 ++: Make Move
+server2->server2: Validate Move
+server2->db: Update Game State
+server1->db: (!!!)Update Game State
+server1 -> p1: Update Game State
+server2 -> p1: Update Game State
+server2 -> p2: Update Game State
+server1 -> p2: Update Game State
+
+@enduml
