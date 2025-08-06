@@ -31,6 +31,9 @@ public class Room implements Serializable {
             players = new int[1];
             players[0] = playerId;
         } else {
+            if (Arrays.stream(players).anyMatch(p -> p == playerId)) {
+                return players; // Player already in the room
+            }
             int[] newPlayers = new int[players.length + 1];
             System.arraycopy(players, 0, newPlayers, 0, players.length);
             newPlayers[players.length] = playerId;

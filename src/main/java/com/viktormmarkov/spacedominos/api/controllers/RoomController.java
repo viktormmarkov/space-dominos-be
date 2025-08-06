@@ -4,7 +4,10 @@ import com.viktormmarkov.spacedominos.models.Response;
 import com.viktormmarkov.spacedominos.models.dto.JoinRoom;
 import com.viktormmarkov.spacedominos.models.dto.LeaveRoom;
 import com.viktormmarkov.spacedominos.models.lobby.Room;
+import com.viktormmarkov.spacedominos.services.GameService;
 import com.viktormmarkov.spacedominos.services.RoomService;
+import com.viktormmarkov.spacedominos.models.game.GameState;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -23,6 +26,8 @@ import java.util.Optional;
 public class RoomController {
     private final RoomService roomService;
     private final SimpMessagingTemplate messaging;
+    private final GameService gameService;
+
 
     private Room createRoom(Room room) {
         log.info("Creating room: {}", room);
@@ -75,6 +80,26 @@ public class RoomController {
         } catch (Exception e) {
             log.error("Error leaving room: {}", e.getMessage());
             return new Response("Failed to leave room: " + e.getMessage());
+        }
+    }
+
+    @PostMapping("/api/rooms/{id}/start")
+    public Response handleStartRoomPost(@PathVariable String id) {
+        log.info("Starting room with ID: {}", id);
+        try {
+            Optional<Room> room = roomService.find(id);
+            if (room.isPresent()) {
+                Room roomPresent = room.get();
+                GameState gameState = gameService.startGameInRoom(roomPresent);
+                messaging.convertAndSend("/topic/rooms/" + id + "/start-game", gameState);
+                return new Response("Room started successfully");
+            } else {
+                log.warn("Room with ID {} not found", id);
+                return new Response("Room not found");
+            }
+        } catch (Exception e) {
+            log.error("Error starting room: {}", e.getMessage());
+            return new Response("Failed to start room: " + e.getMessage());
         }
     }
 }
