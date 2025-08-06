@@ -7,29 +7,80 @@ actor Player1 as p1
 actor Player2 as p2
 
 box "Game Backend" #LightBlue
-    participant "Player 1 Server" as server1
-    participant "Player 2 Server" as server2
+    participant "Player 1 Thread" as s1
+    participant "Player 2 Thread" as s2
+    participant "Game Log" as gl
+    participant "Game Observer" as o2
     database "Game Database" as db
 end box
 
 == normal flow ==
-p1-> server1++: Make Move
-server1->server1: Validate Move
-server1->db: Update Game State
-server1 -> p1: Update Game State
-server1 -> p2: Update Game State
-deactivate server1
+p1-> s1++: Make Move
+s1 -> db: Get Game State
+db --> s1: Game State
+s1->s1: Validate Move
+s1->db: Update Game State
+s1 -> p1: Update Game State
+s1 -> p2: Update Game State
+deactivate s1
 
 == race condition ==
-p1-> server1 ++: Make Move
-server1->server1: Validate Move
-p2-> server2 ++: Make Move
-server2->server2: Validate Move
-server2->db: Update Game State
-server1->db: (!!!)Update Game State
-server1 -> p1: Update Game State
-server2 -> p1: Update Game State
-server2 -> p2: Update Game State
-server1 -> p2: Update Game State
+p1-> s1 ++: Make Move
+note left
+{
+    player: playerId1
+    message: messageId1
+}
+end note
+s1 -> db: Get Game State
+db --> s1: Game State 1
+s1->s1: Validate Move
+p2-> s2 ++: Make Move
+note left
+{
+    player: playerId2
+    message: messageId2
+}
+end note
+s2 -> db: Get Game State
+db --> s2: Game State 1
+s2->s2: Validate Move
+s2 -> s2: Invalid move
+s2 -> p2 : Invalid Move, Revert messageId2
+deactivate s2
+s1->db: Update Game State 1
+s1 -> p1: Update Game State
+s1 -> p2: Update Game State
+deactivate s1
 
+== race condition with failure ==
+p1-> s1 ++: Make Move
+note left
+{
+    player: playerId1
+    message: messageId1
+}
+end note
+s1 -> db: Get Game State
+db --> s1: Game State 1
+s1->s1: Validate Move
+p2-> s2 ++: Make Move
+note left
+{
+    player: playerId2
+    message: messageId2
+}
+end note
+s2 -> db: Get Game State
+db --> s2: Game State 1
+s2->s2!!: Validate Move
+s1->db: Update Game State 1
+db --> s1: Game State 2
+s1 -> s1!!: Crash
+note left
+{
+    gameState: Game State 2,
+    command: Recovery
+}
+end note
 @enduml
